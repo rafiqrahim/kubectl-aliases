@@ -90,7 +90,7 @@ def main():
 
     # prepare output
     template = """function {}
-    {}
+    {} $argv
 end
 """
     for cmd in out:
