@@ -89,15 +89,16 @@ def main():
     out = filter(is_valid, out)
 
     # prepare output
-    if not sys.stdout.isatty():
-        header_path = \
-            os.path.join(os.path.dirname(os.path.realpath(__file__)),
-                         'license_header')
-        with open(header_path, 'r') as f:
-            print(f.read())
+    template = """function {}
+    {}
+end
+"""
     for cmd in out:
-        print("alias {}='{}'".format(''.join([a[0] for a in cmd]),
-              ' '.join([a[1] for a in cmd])))
+        alias = ''.join([a[0] for a in cmd])
+        command = ' '.join([a[1] for a in cmd])
+        with open('functions/' + alias + '.fish', 'w+') as f:
+            output = template.format(alias, command)
+            f.write(output)
 
 
 def gen(parts):
